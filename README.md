@@ -234,16 +234,6 @@ pdf.end();
 - Node.js >= 14
 - TypeScript >= 4.5 (se usar TypeScript)
 
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
-
 ## 📝 Licença
 
 MIT
