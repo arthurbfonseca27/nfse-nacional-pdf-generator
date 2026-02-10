@@ -11,10 +11,10 @@ import {
   formatMoney,
 } from "./formatters";
 
-export function parseXmlFile(xmlFilePath: string): NfseCoreData {
-  const xmlAbs = path.resolve(xmlFilePath);
-  const xml = fs.readFileSync(xmlAbs, "utf-8");
-
+/**
+ * Faz parse do conteúdo XML da NFS-e
+ */
+export function parseXmlContent(xmlContent: string): NfseCoreData {
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: "@_",
@@ -24,7 +24,7 @@ export function parseXmlFile(xmlFilePath: string): NfseCoreData {
     trimValues: true,
   });
 
-  const obj = parser.parse(xml);
+  const obj = parser.parse(xmlContent);
 
   const infNFSe =
     obj?.NFSe?.infNFSe ??
@@ -199,4 +199,13 @@ export function parseXmlFile(xmlFilePath: string): NfseCoreData {
   data.valores.IrrfCpCsllRetidos = formatMoney(irrfCpCsllRetidos);
 
   return data;
+}
+
+/**
+ * Faz parse de um arquivo XML da NFS-e
+ */
+export function parseXmlFile(xmlFilePath: string): NfseCoreData {
+  const xmlAbs = path.resolve(xmlFilePath);
+  const xml = fs.readFileSync(xmlAbs, "utf-8");
+  return parseXmlContent(xml);
 }

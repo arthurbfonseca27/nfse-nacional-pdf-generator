@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import { HeaderData, MunicipalityHeaderData } from "../types";
 import { mm } from "../utils/formatters";
 
@@ -15,13 +13,14 @@ export function renderHeader(
   const centerXmm = 64;
   const col4Xmm = 147;
 
-  if (header.nfseLogoPath) {
-    const nfseLogo = path.resolve(header.nfseLogoPath);
-    if (fs.existsSync(nfseLogo)) {
-      pdf.image(nfseLogo, mm(startXmm), mm(startYmm), {
+  if (header.nfseLogoBase64) {
+    try {
+      pdf.image(header.nfseLogoBase64, mm(startXmm), mm(startYmm), {
         width: mm(40),
         height: mm(7.8),
       });
+    } catch (error) {
+      // Ignora se a imagem for inválida
     }
   }
 
@@ -45,14 +44,23 @@ export function renderHeader(
       });
   }
 
-  if (municipality.imagePath) {
-    const munLogo = path.resolve(municipality.imagePath);
-    if (fs.existsSync(munLogo)) {
-      pdf.image(munLogo, mm(col4Xmm - 15), mm(startYmm), {
+  // Logo/Brasão do Município (base64 ou arquivo)
+  if (municipality.imageBase64) {
+    const buffer = Buffer.from(municipality.imageBase64, 'base64');
+    pdf.image(buffer, mm(col4Xmm - 15), mm(startYmm), {
+      fit: [mm(14), mm(8)],
+      align: "center",
+      valign: "center",
+    });
+  } else   if (municipality.imageBase64) {
+    try {
+      pdf.image(municipality.imageBase64, mm(col4Xmm - 15), mm(startYmm), {
         fit: [mm(14), mm(8)],
         align: "center",
         valign: "center",
       });
+    } catch (error) {
+      // Ignora se a imagem for inválida
     }
   }
 
