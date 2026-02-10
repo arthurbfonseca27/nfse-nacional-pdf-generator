@@ -1,9 +1,3 @@
-export type HeaderData = {
-  danfseVersionText?: string;
-  titleText?: string;
-  nfseLogoBase64?: string; // Data URI (data:image/png;base64,...) ou base64 puro
-};
-
 export type MunicipalityHeaderData = {
   name?: string;
   department?: string;

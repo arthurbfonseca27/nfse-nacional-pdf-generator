@@ -1,11 +1,8 @@
 import PDFDocument from "pdfkit";
-import { HeaderData, MunicipalityHeaderData, NfseCoreData } from "./types";
+import { MunicipalityHeaderData, NfseCoreData } from "./types";
 import { parseXmlContent } from "./utils/xml-parser";
 import { mm } from "./utils/formatters";
-import {
-  addHorizontalLine,
-  drawDocumentBorder,
-} from "./utils/drawing-utils";
+import { addHorizontalLine, drawDocumentBorder } from "./utils/drawing-utils";
 import { renderHeader } from "./sections/header";
 import { renderDadosNfse } from "./sections/dados-nfse";
 import { renderEmitente } from "./sections/emitente";
@@ -22,7 +19,6 @@ import { registerFonts } from "./utils/font-manager";
 
 export class NfsePdfGenerator {
   private pdf: PDFKit.PDFDocument;
-  private header: HeaderData = {};
   private municipality: MunicipalityHeaderData = {};
   private data?: NfseCoreData;
   private font = "Arial";
@@ -57,11 +53,6 @@ export class NfsePdfGenerator {
     this.pdf.font(this.font).fontSize(8);
   }
 
-  public setHeader(data: HeaderData) {
-    this.header = { ...this.header, ...data };
-    return this;
-  }
-
   public setMunicipality(data: MunicipalityHeaderData) {
     this.municipality = { ...this.municipality, ...data };
     return this;
@@ -90,11 +81,11 @@ export class NfsePdfGenerator {
 
     renderHeader(
       this.pdf,
-      this.header,
       this.municipality,
       LAYOUT_CONSTANTS.margin,
       this.font,
     );
+
     addHorizontalLine(
       this.pdf,
       LAYOUT_CONSTANTS.pageWidthMm,

@@ -18,13 +18,6 @@ async function gerarPDF() {
   // Criar instância do gerador
   const generator = new NfsePdfGenerator();
   
-  // Configurar cabeçalho (opcional)
-  generator.setHeader({
-    danfseVersionText: 'DANFSE - Documento Auxiliar da Nota Fiscal de Serviços Eletrônica',
-    titleText: 'NFS-e Nacional',
-    nfseLogoBase64: 'data:image/png;base64,iVBORw0KGgoAAAANS...' // opcional
-  });
-  
   // Configurar dados do município (opcional)
   generator.setMunicipality({
     name: 'Prefeitura Municipal',
@@ -60,8 +53,7 @@ async function main() {
     // Ler o conteúdo XML
     const xmlContent = fs.readFileSync('./nfse-exemplo.xml', 'utf-8');
     
-    // Converter imagens para base64 (opcional)
-    const nfseLogo = fs.readFileSync('./logo-nfse.png').toString('base64');
+    // Converter logo do município para base64
     const brasaoMunicipio = fs.readFileSync('./brasao-sp.png').toString('base64');
     
     const generator = new NfsePdfGenerator(
@@ -70,20 +62,14 @@ async function main() {
       'Documento Auxiliar da NFS-e' // subject
     );
     
-    // Configurações opcionais
-    generator
-      .setHeader({
-        danfseVersionText: 'DANFSE - Versão 1.0',
-        titleText: 'Nota Fiscal de Serviços Eletrônica',
-        nfseLogoBase64: `data:image/png;base64,${nfseLogo}`
-      })
-      .setMunicipality({
-        name: 'Prefeitura de São Paulo',
-        department: 'Secretaria Municipal de Fazenda',
-        phone: '(11) 3113-9000',
-        email: 'atendimento@prefeitura.sp.gov.br',
-        imageBase64: `data:image/png;base64,${brasaoMunicipio}`
-      });
+    // Configurar dados do município (opcional)
+    generator.setMunicipality({
+      name: 'Prefeitura de São Paulo',
+      department: 'Secretaria Municipal de Fazenda',
+      phone: '(11) 3113-9000',
+      email: 'atendimento@prefeitura.sp.gov.br',
+      imageBase64: `data:image/png;base64,${brasaoMunicipio}`
+    });
     
     // Parse do conteúdo XML da NFS-e
     generator.parseXml(xmlContent);
@@ -109,14 +95,12 @@ main();
 
 ### Cabeçalho (Header)
 
-```typescript
-generator.setHeader({
-  danfseVersionText?: string,  // Texto da versão do DANFSE
-  titleText?: string,          // Título principal
-  nfseLogoBase64?: string      // Logo da NFS-e em Data URI ou base64 puro (opcional)
-                               // Formato: 'data:image/png;base64,iVBORw0KGg...' ou 'iVBORw0KGg...'
-});
-```
+O cabeçalho da NFS-e possui valores **fixos e internos** que aparecem automaticamente em todas as notas:
+- Logo da NFS-e Nacional
+- Texto "DANFSE - Documento Auxiliar da Nota Fiscal de Serviços Eletrônica"
+- Título "NFS-e Nacional"
+
+Esses elementos não precisam (e não podem) ser configurados, garantindo padronização.
 
 ### Dados do Município
 
@@ -133,30 +117,25 @@ generator.setMunicipality({
 
 ### 🖼️ Formato de Imagens
 
-As imagens podem ser fornecidas em **dois formatos**:
+#### Logo NFS-e
+A logo da NFS-e é **interna e fixa**, carregada automaticamente pelo gerador. Não é necessário fornecê-la.
 
-#### 1. Data URI (recomendado)
+#### Logo do Município
+A logo do município aceita **Data URI ou base64 puro**:
+
 ```typescript
-import fs from 'fs';
-
-const imageBuffer = fs.readFileSync('./imagem.png');
+// Opção 1: Data URI
+const imageBuffer = fs.readFileSync('./brasao.png');
 const base64 = imageBuffer.toString('base64');
 const dataUri = `data:image/png;base64,${base64}`;
 
-generator.setHeader({
-  nfseLogoBase64: dataUri
+generator.setMunicipality({
+  imageBase64: dataUri
 });
-```
 
-#### 2. Base64 puro
-```typescript
-import fs from 'fs';
-
-const imageBuffer = fs.readFileSync('./imagem.png');
-const base64String = imageBuffer.toString('base64');
-
-generator.setHeader({
-  nfseLogoBase64: base64String
+// Opção 2: Base64 puro
+generator.setMunicipality({
+  imageBase64: base64
 });
 ```
 
@@ -202,23 +181,6 @@ O gerador aceita o conteúdo XML no padrão NFS-e Nacional como string. Exemplo 
 
 Cria uma nova instância do gerador.
 
-**Parâmetros:**
-- `author` (opcional): Autor do documento PDF
-- `creator` (opcional): Criador do documento PDF
-- `subject` (opcional): Assunto do documento PDF
-
-### `setHeader(data: HeaderData): this`
-
-Define os dados do cabeçalho.
-
-**Parâmetros:**
-```typescript
-{
-  danfseVersionText?: string;
-  titleText?: string;
-  nfseLogoBase64?: string; // Data URI ou base64 puro
-}
-```
 
 ### `setMunicipality(data: MunicipalityHeaderData): this`
 

@@ -1,10 +1,16 @@
-import { HeaderData, MunicipalityHeaderData } from "../types";
+import { MunicipalityHeaderData } from "../types";
 import { mm } from "../utils/formatters";
 import { processImageBase64 } from "../utils/image-helper";
+import path from "path";
+
+// Constantes fixas do cabeçalho NFS-e
+const NFSE_LOGO_PATH = path.join(__dirname, "../assets/logo-nfse.png");
+const DANFSE_VERSION_TEXT =
+  "DANFSE - Documento Auxiliar da Nota Fiscal de Serviços Eletrônica";
+const TITLE_TEXT = "NFS-e Nacional";
 
 export function renderHeader(
   pdf: PDFKit.PDFDocument,
-  header: HeaderData,
   municipality: MunicipalityHeaderData,
   margin: number,
   font: string,
@@ -14,39 +20,30 @@ export function renderHeader(
   const centerXmm = 64;
   const col4Xmm = 147;
 
-  // Logo NFS-e
-  if (header.nfseLogoBase64) {
-    try {
-      const imageData = processImageBase64(header.nfseLogoBase64);
-      pdf.image(imageData, mm(startXmm), mm(startYmm), {
-        width: mm(40),
-        height: mm(7.8),
-      });
-    } catch (error) {
-      // Ignora se a imagem for inválida
-      console.warn('Erro ao processar logo NFS-e:', error);
-    }
+  try {
+    pdf.image(NFSE_LOGO_PATH, mm(startXmm), mm(startYmm), {
+      width: mm(40),
+      height: mm(7.8),
+    });
+  } catch (error) {
+    console.warn("Erro ao carregar logo NFS-e:", error);
   }
 
-  if (header.danfseVersionText) {
-    pdf
-      .font("Arial-Semibold")
-      .fontSize(10)
-      .text(header.danfseVersionText, mm(centerXmm), mm(startYmm + 0.5), {
-        width: mm(50),
-        align: "center",
-      });
-  }
+  pdf
+    .font("Arial-Semibold")
+    .fontSize(10)
+    .text(DANFSE_VERSION_TEXT, mm(centerXmm), mm(startYmm + 0.5), {
+      width: mm(50),
+      align: "center",
+    });
 
-  if (header.titleText) {
-    pdf
-      .font("Arial-Semibold")
-      .fontSize(10)
-      .text(header.titleText, mm(centerXmm), mm(startYmm + 4), {
-        width: mm(50),
-        align: "center",
-      });
-  }
+  pdf
+    .font("Arial-Semibold")
+    .fontSize(10)
+    .text(TITLE_TEXT, mm(centerXmm), mm(startYmm + 4), {
+      width: mm(50),
+      align: "center",
+    });
 
   // Logo/Brasão do Município
   if (municipality.imageBase64) {
@@ -59,7 +56,7 @@ export function renderHeader(
       });
     } catch (error) {
       // Ignora se a imagem for inválida
-      console.warn('Erro ao processar logo do município:', error);
+      console.warn("Erro ao processar logo do município:", error);
     }
   }
 
