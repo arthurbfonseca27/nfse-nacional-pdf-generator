@@ -247,16 +247,3 @@ Contribuições são bem-vindas! Por favor:
 ## 📝 Licença
 
 MIT
-
-## 👤 Autor
-
-**Arthur Fonseca**
-- GitHub: [@arthurbfonseca27](https://github.com/arthurbfonseca27)
-
-## 🐛 Reportar Bugs
-
-Encontrou um bug? Por favor abra uma [issue](https://github.com/arthurbfonseca27/nfse-pdf-generator/issues).
-
-## ⭐ Mostre seu apoio
-
-Dê uma ⭐️ se este projeto ajudou você!
