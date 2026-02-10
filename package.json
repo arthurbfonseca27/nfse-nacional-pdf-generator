@@ -1,22 +1,49 @@
 {
   "name": "nfse-nacional-pdf-generator",
   "version": "1.0.0",
-  "description": "Gerador de PDF para NFS-e Nacional",
+  "description": "Gerador de PDF para NFS-e Nacional (Nota Fiscal de Serviços Eletrônica) seguindo o padrão da Nota Fiscal Brasil",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
   },
+  "files": [
+    "dist",
+    "assets",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "nfse",
+    "nfs-e",
+    "nfse-nacional",
     "pdf",
+    "pdf-generator",
     "invoice",
-    "nota-fiscal"
+    "nota-fiscal",
+    "nota-fiscal-servicos",
+    "danfse",
+    "xml-to-pdf",
+    "brazil",
+    "brasil",
+    "fiscal"
   ],
-  "author": "",
+  "author": "Arthur Fonseca <arthurbfonseca27@gmail.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthurbfonseca27/nfse-nacional-pdf-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arthurbfonseca27/nfse-nacional-pdf-generator/issues"
+  },
+  "homepage": "https://github.com/arthurbfonseca27/nfse-nacional-pdf-generator#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "fast-xml-parser": "^5.3.5",
     "image-size": "^2.0.2",
