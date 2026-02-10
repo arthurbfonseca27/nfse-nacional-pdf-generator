@@ -1,6 +1,6 @@
 import PDFDocument from "pdfkit";
 import { HeaderData, MunicipalityHeaderData, NfseCoreData } from "./types";
-import { parseXmlFile, parseXmlContent } from "./utils/xml-parser";
+import { parseXmlContent } from "./utils/xml-parser";
 import { mm } from "./utils/formatters";
 import {
   addHorizontalLine,
@@ -68,11 +68,6 @@ export class NfsePdfGenerator {
   }
 
   public parseXml(xmlContent: string) {
-    this.data = parseXmlContent(xmlContent);
-    return this;
-  }
-
-  public parseXmlString(xmlContent: string) {
     this.data = parseXmlContent(xmlContent);
     return this;
   }

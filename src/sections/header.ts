@@ -1,5 +1,6 @@
 import { HeaderData, MunicipalityHeaderData } from "../types";
 import { mm } from "../utils/formatters";
+import { processImageBase64 } from "../utils/image-helper";
 
 export function renderHeader(
   pdf: PDFKit.PDFDocument,
@@ -13,14 +14,17 @@ export function renderHeader(
   const centerXmm = 64;
   const col4Xmm = 147;
 
+  // Logo NFS-e
   if (header.nfseLogoBase64) {
     try {
-      pdf.image(header.nfseLogoBase64, mm(startXmm), mm(startYmm), {
+      const imageData = processImageBase64(header.nfseLogoBase64);
+      pdf.image(imageData, mm(startXmm), mm(startYmm), {
         width: mm(40),
         height: mm(7.8),
       });
     } catch (error) {
       // Ignora se a imagem for inválida
+      console.warn('Erro ao processar logo NFS-e:', error);
     }
   }
 
@@ -44,23 +48,18 @@ export function renderHeader(
       });
   }
 
-  // Logo/Brasão do Município (base64 ou arquivo)
+  // Logo/Brasão do Município
   if (municipality.imageBase64) {
-    const buffer = Buffer.from(municipality.imageBase64, 'base64');
-    pdf.image(buffer, mm(col4Xmm - 15), mm(startYmm), {
-      fit: [mm(14), mm(8)],
-      align: "center",
-      valign: "center",
-    });
-  } else   if (municipality.imageBase64) {
     try {
-      pdf.image(municipality.imageBase64, mm(col4Xmm - 15), mm(startYmm), {
+      const imageData = processImageBase64(municipality.imageBase64);
+      pdf.image(imageData, mm(col4Xmm - 15), mm(startYmm), {
         fit: [mm(14), mm(8)],
         align: "center",
         valign: "center",
       });
     } catch (error) {
       // Ignora se a imagem for inválida
+      console.warn('Erro ao processar logo do município:', error);
     }
   }
 

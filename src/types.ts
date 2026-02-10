@@ -1,7 +1,7 @@
 export type HeaderData = {
   danfseVersionText?: string;
   titleText?: string;
-  nfseLogoBase64?: string; // Base64 da imagem (data:image/png;base64,...)
+  nfseLogoBase64?: string; // Data URI (data:image/png;base64,...) ou base64 puro
 };
 
 export type MunicipalityHeaderData = {
@@ -9,7 +9,7 @@ export type MunicipalityHeaderData = {
   department?: string;
   phone?: string;
   email?: string;
-  imageBase64?: string; // Base64 da imagem (data:image/png;base64,...)
+  imageBase64?: string; // Data URI (data:image/png;base64,...) ou base64 puro
 };
 
 export type NfseCoreData = {

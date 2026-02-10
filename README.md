@@ -113,8 +113,8 @@ main();
 generator.setHeader({
   danfseVersionText?: string,  // Texto da versão do DANFSE
   titleText?: string,          // Título principal
-  nfseLogoBase64?: string      // Logo da NFS-e em base64 (opcional)
-                               // Formato: 'data:image/png;base64,iVBORw0KGg...'
+  nfseLogoBase64?: string      // Logo da NFS-e em Data URI ou base64 puro (opcional)
+                               // Formato: 'data:image/png;base64,iVBORw0KGg...' ou 'iVBORw0KGg...'
 });
 ```
 
@@ -126,17 +126,17 @@ generator.setMunicipality({
   department?: string,   // Departamento/secretaria
   phone?: string,        // Telefone de contato
   email?: string,        // Email de contato
-  imageBase64?: string   // Brasão/logo em base64 (opcional)
-                         // Formato: 'data:image/png;base64,iVBORw0KGg...'
+  imageBase64?: string   // Brasão/logo em Data URI ou base64 puro (opcional)
+                         // Formato: 'data:image/png;base64,iVBORw0KGg...' ou 'iVBORw0KGg...'
 });
 ```
 
-### 🖼️ Formato de Imagens Base64
+### 🖼️ Formato de Imagens
 
-As imagens devem estar no formato Data URI:
+As imagens podem ser fornecidas em **dois formatos**:
 
+#### 1. Data URI (recomendado)
 ```typescript
-// Exemplo de conversão
 import fs from 'fs';
 
 const imageBuffer = fs.readFileSync('./imagem.png');
@@ -148,13 +148,153 @@ generator.setHeader({
 });
 ```
 
+#### 2. Base64 puro
+```typescript
+import fs from 'fs';
+
+const imageBuffer = fs.readFileSync('./imagem.png');
+const base64String = imageBuffer.toString('base64');
+
+generator.setHeader({
+  nfseLogoBase64: base64String
+});
+```
+
 Formatos suportados: `png`, `jpg`, `jpeg`
+
+## 📁 Estrutura do XML
+
+O gerador aceita o conteúdo XML no padrão NFS-e Nacional como string. Exemplo de estrutura mínima:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<NFSe>
+  <infNFSe Id="NFS12345678901234567890123456789012345678901234">
+    <nNFSe>123456</nNFSe>
+    <dhProc>2024-01-15T10:30:00-03:00</dhProc>
+    <emit>
+      <CNPJ>12345678000190</CNPJ>
+      <xNome>Empresa Prestadora LTDA</xNome>
+      <!-- mais campos do emitente -->
+    </emit>
+    <DPS>
+      <infDPS>
+        <toma>
+          <CNPJ>98765432000100</CNPJ>
+          <xNome>Cliente Tomador LTDA</xNome>
+          <!-- mais campos do tomador -->
+        </toma>
+        <serv>
+          <!-- dados do serviço -->
+        </serv>
+        <valores>
+          <!-- valores da nota -->
+        </valores>
+      </infDPS>
+    </DPS>
+  </infNFSe>
+</NFSe>
+```
+
+## 🔧 API
+
+### `new NfsePdfGenerator(author?, creator?, subject?)`
+
+Cria uma nova instância do gerador.
+
+**Parâmetros:**
+- `author` (opcional): Autor do documento PDF
+- `creator` (opcional): Criador do documento PDF
+- `subject` (opcional): Assunto do documento PDF
+
+### `setHeader(data: HeaderData): this`
+
+Define os dados do cabeçalho.
+
+**Parâmetros:**
+```typescript
+{
+  danfseVersionText?: string;
+  titleText?: string;
+  nfseLogoBase64?: string; // Data URI ou base64 puro
+}
+```
+
+### `setMunicipality(data: MunicipalityHeaderData): this`
+
+Define os dados do município.
+
+**Parâmetros:**
+```typescript
+{
+  name?: string;
+  department?: string;
+  phone?: string;
+  email?: string;
+  imageBase64?: string; // Data URI ou base64 puro
+}
+```
+
+### `parseXml(xmlContent: string): this`
+
+Faz o parse do conteúdo XML da NFS-e.
+
+**Parâmetros:**
+- `xmlContent`: String contendo o conteúdo XML da NFS-e
+
+**Retorna:** `this` (para encadeamento)
+
+**Lança:** Error se o XML for inválido
+
+**Exemplo:**
+```typescript
+const xmlContent = fs.readFileSync('./nfse.xml', 'utf-8');
+generator.parseXml(xmlContent);
+```
+
+### `async generate(): Promise<PDFKit.PDFDocument>`
+
+Gera o documento PDF.
+
+**Retorna:** Promise com o documento PDFKit
+
+**Lança:** Error se `parseXml()` não foi chamado antes
+
+**Exemplo:**
+```typescript
+const pdf = await generator.generate();
+pdf.pipe(fs.createWriteStream('output.pdf'));
+pdf.end();
+```
 
 ## 📋 Requisitos
 
 - Node.js >= 14
 - TypeScript >= 4.5 (se usar TypeScript)
 
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Por favor:
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
+
 ## 📝 Licença
 
-ISC
+MIT
+
+## 👤 Autor
+
+**Arthur Fonseca**
+- GitHub: [@arthurbfonseca27](https://github.com/arthurbfonseca27)
+
+## 🐛 Reportar Bugs
+
+Encontrou um bug? Por favor abra uma [issue](https://github.com/arthurbfonseca27/nfse-pdf-generator/issues).
+
+## ⭐ Mostre seu apoio
+
+Dê uma ⭐️ se este projeto ajudou você!
