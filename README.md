@@ -1,17 +1,17 @@
-# NFS-e Nacional PDF Generator
+# NFS-e PDF Generator
 
-Gerador de PDF para NFS-e Nacional (Nota Fiscal de Serviços Eletrônica) seguindo o padrão da Nota Fiscal Nacional.
+Gerador de PDF para NFS-e Nacional (Nota Fiscal de Serviços Eletrônica) seguindo o padrão da Nota Fiscal Brasil.
 
 ## 📦 Instalação
 
 ```bash
-npm install nfse-nacional-pdf-generator
+npm install @ninepay/nfse-pdf-generator
 ```
 
 ## 🚀 Uso Básico
 
 ```typescript
-import { NfsePdfGenerator } from 'nfse-nacional-pdf-generator';
+import { NfsePdfGenerator } from '@ninepay/nfse-pdf-generator';
 import fs from 'fs';
 
 async function gerarPDF() {
@@ -51,7 +51,7 @@ gerarPDF();
 ## 📖 Exemplo Completo
 
 ```typescript
-import { NfsePdfGenerator } from 'nfse-nacional-pdf-generator';
+import { NfsePdfGenerator } from '@ninepay/nfse-pdf-generator';
 import fs from 'fs';
 import path from 'path';
 

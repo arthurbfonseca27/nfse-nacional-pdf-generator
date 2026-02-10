@@ -1,7 +1,7 @@
 {
-  "name": "nfse-nacional-pdf-generator",
+  "name": "@ninepay/nfse-pdf-generator",
   "version": "1.0.0",
-  "description": "Gerador de PDF para NFS-e Nacional (Nota Fiscal de Serviços Eletrônica) seguindo o padrão da Nota Fiscal Brasil",
+  "description": "Gerador de PDF para NFS-e Nacional (Nota Fiscal de Serviços Eletrônica) seguindo o padrão da Nota Fiscal Nacional",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,6 +16,9 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "nfse",
     "nfs-e",
@@ -32,15 +35,15 @@
     "fiscal"
   ],
   "author": "Arthur Fonseca <arthurbfonseca27@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arthurbfonseca27/nfse-nacional-pdf-generator.git"
+    "url": "git+https://github.com/arthurbfonseca27/nfse-pdf-generator.git"
   },
   "bugs": {
-    "url": "https://github.com/arthurbfonseca27/nfse-nacional-pdf-generator/issues"
+    "url": "https://github.com/arthurbfonseca27/nfse-pdf-generator/issues"
   },
-  "homepage": "https://github.com/arthurbfonseca27/nfse-nacional-pdf-generator#readme",
+  "homepage": "https://github.com/arthurbfonseca27/nfse-pdf-generator#readme",
   "engines": {
     "node": ">=14.0.0"
   },
