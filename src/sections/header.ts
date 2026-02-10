@@ -4,7 +4,7 @@ import { processImageBase64 } from "../utils/image-helper";
 import path from "path";
 
 // Constantes fixas do cabeçalho NFS-e
-const NFSE_LOGO_PATH = path.join(__dirname, "../assets/logo-nfse.png");
+const NFSE_LOGO_PATH = path.join(__dirname, "../../assets/logo-nfse.png");
 const DANFSE_VERSION_TEXT =
   "DANFSE - Documento Auxiliar da Nota Fiscal de Serviços Eletrônica";
 const TITLE_TEXT = "NFS-e Nacional";

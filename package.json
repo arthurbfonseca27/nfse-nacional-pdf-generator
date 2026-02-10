@@ -1,6 +1,6 @@
 {
   "name": "@ninepay/nfse-pdf-generator",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Gerador de PDF para NFS-e Nacional (Nota Fiscal de Serviços Eletrônica) seguindo o padrão da Nota Fiscal Nacional",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
