@@ -66,11 +66,16 @@ export function renderEmitente(
     width: mm(col3W + col4W),
   });
 
-  const y7 = y6 + 3;
+  const y7 = y6 + 4;
   pdf.font(font).fontSize(8);
-  pdf.text(optanteSimplesNacional(emit.optanteSimplesNacional), mm(col1X), mm(y7), {
-    width: mm(col1W),
-  });
+  pdf.text(
+    optanteSimplesNacional(emit.optanteSimplesNacional),
+    mm(col1X),
+    mm(y7),
+    {
+      width: mm(col3W + col4W),
+    },
+  );
   pdf.text(
     regimeApuracaoTributariaSN(emit.regimeApuracaoTributariaSN),
     mm(col3X),
