@@ -45,5 +45,5 @@ export function renderServico(
     width: mm(col2W + col3W + col4W),
   });
 
-  pdf.y = mm(y4 + 6);
+  pdf.y = pdf.y + mm(3);
 }

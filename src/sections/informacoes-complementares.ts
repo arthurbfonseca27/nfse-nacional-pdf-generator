@@ -29,5 +29,5 @@ export function renderInformacoesComplementares(
     });
   }
 
-  pdf.y = mm(y1 + 5);
+  pdf.y = pdf.y + mm(3);
 }
