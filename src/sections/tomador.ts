@@ -7,9 +7,9 @@ function getEnderecoTomador(
   localEmissao: string,
   localPrestacao: string,
 ): [string, string] {
-  let cidade = toma.municipio || null;
-  if (cidade && toma.uf) {
-    cidade = `${toma.municipio} - ${toma.uf}`;
+  let cidade: string;
+  if (toma.municipio) {
+    cidade = toma.uf ? `${toma.municipio} - ${toma.uf}` : toma.municipio;
   } else {
     cidade =
       localPrestacao && localPrestacao !== localEmissao

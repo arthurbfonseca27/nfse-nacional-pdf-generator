@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { XMLParser } from "fast-xml-parser";
 import { NfseCoreData } from "../types";
+import { getMunicipioByIbgeCode } from "./ibge-cities";
 import {
   formatDateTime,
   formatDate,
@@ -89,6 +90,12 @@ export function parseXmlContent(xmlContent: string): NfseCoreData {
       complemento: String(infDPS?.toma?.end?.xCpl ?? ""),
       bairro: String(infDPS?.toma?.end?.xBairro ?? ""),
       ibgeMunicipio: String(infDPS?.toma?.end?.endNac?.cMun ?? ""),
+      municipio: getMunicipioByIbgeCode(
+        String(infDPS?.toma?.end?.endNac?.cMun ?? ""),
+      )?.nome,
+      uf: getMunicipioByIbgeCode(
+        String(infDPS?.toma?.end?.endNac?.cMun ?? ""),
+      )?.uf,
       cep: formatCep(String(infDPS?.toma?.end?.endNac?.CEP ?? "")),
     },
     servico: {
